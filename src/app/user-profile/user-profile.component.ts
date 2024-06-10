@@ -81,6 +81,7 @@ export class UserProfileComponent implements OnInit {
       Object.keys(this.updateProfileForm.value).forEach(key => {
         formData.append(key, this.updateProfileForm.value[key]);
       });
+
       console.log(this.updateProfileForm.value);
 
       this.http.post('http://localhost:8089/api/v1/auth/register', formData)
