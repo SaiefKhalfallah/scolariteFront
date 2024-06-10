@@ -1,0 +1,30 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Login</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="loginForm" (submit)="login()">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" placeholder="Enter your email"
+                  formControlName="email">
+
+                <label for="password">Mot de Passe</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                  formControlName="password">
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+              </div>
+              <p>Don't have an account ? <a href="http://localhost:4200/register">Sign up</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

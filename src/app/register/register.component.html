@@ -1,0 +1,74 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Inscription</h4>
+            <p class="card-category">Complétez votre profil</p>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="reg()" [formGroup]="registerForm">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="firstName">Prénom</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="Ajoutez votre prénom"
+                      formControlName="firstname" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="lastName">Nom</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Ajoutez votre nom"
+                      formControlName="lastname" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="datenaissance">Date de naissance</label> 
+                    <input type="date" class="form-control" id="datenaissance" formControlName="datenaissance" required> 
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="Sexe">Sexe</label> 
+                    <select class="form-control" id="Sexe" formControlName="sexe" required> 
+                      <option value="">Choisissez votre sexe</option>
+                      <option value="male">Masculin</option>
+                      <option value="female">Femme</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="title-label" for="email">Adresse email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Entrez votre adresse email"
+                      formControlName="email" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="phone">Téléphone</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Entrez votre numéro de téléphone"
+                      formControlName="phoneNumber" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe"
+                      formControlName="password" required>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-danger pull-right"
+                [disabled]="registerForm.invalid" >S'inscrire</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Use *ngFor to loop through profiles -->
+            <div class="col-lg-3 col-md-4 col-sm-4" *ngFor="let profile of profiles">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <img style="height: 100%; width: 100%; object-fit: contain;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
+                    </div>
+                    <div style="color:#F44336" class="card-footer">
+                        <div class="stats">
+                            <h5 class="card-title">{{ profile.nom }} {{ profile.prenom }}</h5>
+                            <i class="material-icons">badge</i> {{ profile.roles }}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <p class="card-category">{{ profile.email }}</p>
+                        </div>
+                    </div>
+
+                        <button type="submit" class="btn pull-right"
+                                [ngClass]="{'btn-danger': profile.actif, 'btn-success': !profile.actif}"
+                                (click)="deactivatePerson(profile.id_personne, profile.actif ? 0 : 1)">
+                            {{ profile.actif ? 'Désactiver le compte' : 'Activer le compte' }}
+                        </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

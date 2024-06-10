@@ -1,0 +1,92 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Utilisateur</h4>
+            <p class="card-category">Ajouter un utilisateur à votre platforme</p>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="reg()" [formGroup]="updateProfileForm">
+
+              <div class="row">
+                <div class="col-md-12">
+
+                    <input type="file" class="form-control" id="photo" (change)="onFileSelected($event)" accept="image/*">
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="firstName">Prénom</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="Ajoutez votre prénom"
+                           formControlName="firstname" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="lastName">Nom</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Ajoutez votre nom"
+                           formControlName="lastname" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="datenaissance">Date de naissance</label>
+                    <input type="date" class="form-control" id="datenaissance" formControlName="datenaissance" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="Sexe">Sexe</label>
+                    <select class="form-control" id="Sexe" formControlName="sexe" required>
+                      <option value="">Choisissez votre sexe</option>
+                      <option value="male">Masculin</option>
+                      <option value="female">Femme</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="title-label" for="email">Adresse email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Entrez votre adresse email"
+                           formControlName="email" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="phone">Téléphone</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Entrez votre numéro de téléphone"
+                           formControlName="phoneNumber" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe"
+                           formControlName="password" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="title-label" for="Role">Role</label>
+                  <select class="form-control" id="Role" formControlName="roles" required>
+                    <option value="">Choisissez le role de cette personne</option>
+                    <option value="ETUDIANT">ETUDIANT</option>
+                    <option value="PARENT">PARENT</option>
+                    <option value="ENSEIGNANT">ENSEIGNANT</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <button type="submit" class="btn btn-danger pull-right"
+                      [disabled]="updateProfileForm.invalid" >Ajouter un utilisateur</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
