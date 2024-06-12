@@ -18,7 +18,7 @@ export class UserService {
    return this.http.get<Personne>(`${this.apiUrl}/personne/find/${userId}`);
  }
   
-  updateUserProfile(userId: number, personne: Personne): Observable<Personne> {
+  updateUserProfile(userId: number, personne: any): Observable<Personne> {
     return this.http.put<Personne>(`${this.apiUrl}/personne/update/${userId}`, personne).pipe(
       tap((updatedUser: Personne) => {
         // Update the user details in local storage after successful update

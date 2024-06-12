@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Personne } from '../models/personne.model';
-import { AuthService } from '../auth.service';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
-declare var $: any;
+import { HttpClient } from "@angular/common/http";
+import { Router, ActivatedRoute } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import {Personne} from "../models/personne.model";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-update-profile',
@@ -16,91 +15,125 @@ declare var $: any;
 export class UserProfileComponent implements OnInit {
   updateProfileForm: FormGroup;
   userId: number | null = null;
+  isEditing: boolean = false;
+  profile:any;
 
   constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router,
-    private toastr:ToastrService
-  ) {
+      private datePipe: DatePipe,
+      private fb: FormBuilder,
+      private userService: UserService,
+      private formBuilder: FormBuilder,
+      private http: HttpClient,
+      private router: Router,
+      private route: ActivatedRoute, // Inject ActivatedRoute for route parameters
+      private toastr: ToastrService
+  ) { }
 
-
+  ngOnInit(): void {
+    this.initRegisterForm();
+    this.route.params.subscribe(params => {
+      const profileId = params['id'];
+      if (profileId) {
+        this.isEditing = true; // Set editing flag to true if profileId is provided
+        this.loadProfile(profileId);
+        this.userId=profileId;
+      }
+    });
   }
+
   initRegisterForm() {
-    this.updateProfileForm = this.formBuilder.group({
+    this.updateProfileForm = this.fb.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      datenaissance: ['', Validators.required], // Changed to lowercase datenaissance
-      sexe: ['', Validators.required], // Changed to lowercase sexe
+      datenaissance: ['', Validators.required],
+      sexe: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       password: ['', Validators.required],
       roles: ['', Validators.required],
-      image: ['', Validators.required],
-
+      image: ['']
     });
   }
+  loadProfile(profileId: number): void {
+    this.userService.getUserProfile(profileId).subscribe(
+        (profile: any) => {
+          console.log(profile)
+          const formattedDate = this.datePipe.transform(profile.datenaissance, 'yyyy-MM-dd');
 
-  ngOnInit(): void {
-    this.initRegisterForm();
-    /*if (this.authService.isLoggedIn()) {
-      this.userId = this.authService.getUserIdFromStorage();
-      if (this.userId !== null) {
-        this.loadUserProfile();
-      } else {
-        this.authService.fetchCurrentUserId().subscribe(
-          (userId: number) => {
-            this.userId = userId;
-            this.loadUserProfile();
-          },
-          (error) => {
-            console.error('Error fetching current user ID:', error);
-          }
-        );
-      }
-    } else {
-      console.error('User not authenticated.');
-    }*/
+          this.profile = profile;
+          // Populate form fields with profile data
+          this.updateProfileForm.patchValue({
+            firstname: profile.nom,
+            lastname: profile.prenom,
+            datenaissance: formattedDate,
+            sexe: profile.sexe,
+            email: profile.email,
+            phoneNumber: profile.telephone,
+            roles: profile.roles,
+            image: profile.image
+          });
+        },
+        error => {
+          console.error('Error loading profile:', error);
+        }
+    );
   }
+
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
-      console.log(event.target.files[0]);
       const file = event.target.files[0];
       this.updateProfileForm.patchValue({
         image: file
       });
     }
   }
-  reg() {
 
-    if (this.updateProfileForm.valid) {
-      const formData = new FormData();
-      Object.keys(this.updateProfileForm.value).forEach(key => {
-        formData.append(key, this.updateProfileForm.value[key]);
-      });
+  submitForm(): void {
+    if (this.isEditing){
+      if (this.updateProfileForm.valid) {
+        const formData = new FormData();
+        Object.keys(this.updateProfileForm.value).forEach(key => {
+          formData.append(key, this.updateProfileForm.value[key]);
+        });
 
-      console.log(this.updateProfileForm.value);
+        this.userService.updateUserProfile(this.userId,formData)
+            .subscribe(
+                (response) => {
+                  console.log('Registration successful:', response);
+                  this.toastr.success('user added successfully');
+                  this.updateProfileForm.reset();
+                },
+                (error) => {
+                  console.error('Registration failed:', error);
+                  this.toastr.error('cannot add user');
+                }
+            );
+      } else {
+        this.toastr.error('Please fill out all required fields');
+      }
+    }else{
+      if (this.updateProfileForm.valid) {
+        const formData = new FormData();
+        Object.keys(this.updateProfileForm.value).forEach(key => {
+          formData.append(key, this.updateProfileForm.value[key]);
+        });
 
-      this.http.post('http://localhost:8089/api/v1/auth/register', formData)
-          .subscribe(
-              (response) => {
-                console.log('Registration successful:', response);
-                this.toastr.success('user added successfully')
-                this.updateProfileForm.reset();
-              },
-              (error) => {
-                console.error('Registration failed:', error);
-                this.toastr.error('cannot add user')
-              }
-          );
-    } else {
-      console.log('Form is invalid');
-      this.toastr.error('image is large')
+        this.http.post('http://localhost:8089/api/v1/auth/register', formData)
+            .subscribe(
+                (response) => {
+                  console.log('Registration successful:', response);
+                  this.toastr.success('user added successfully');
+                  this.updateProfileForm.reset();
+                },
+                (error) => {
+                  console.error('Registration failed:', error);
+                  this.toastr.error('cannot add user');
+                }
+            );
+      } else {
+        this.toastr.error('Please fill out all required fields');
+      }
     }
+
   }
-
-
 }

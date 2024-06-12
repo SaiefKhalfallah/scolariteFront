@@ -11,6 +11,9 @@
                         <div class="stats">
                             <h5 class="card-title">{{ profile.nom }} {{ profile.prenom }}</h5>
                             <i class="material-icons">badge</i> {{ profile.roles }}
+                            <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon" (click)="editProfile(profile)">
+                                <i class="material-icons">edit</i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-footer">

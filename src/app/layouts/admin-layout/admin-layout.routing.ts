@@ -64,6 +64,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'list-profile',        component: ListprofilesComponent },
     { path: 'add-matiere',        component: MatiereComponent },
+    { path: 'user-profile/:id', component: UserProfileComponent }
+
 
 
 ];

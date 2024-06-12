@@ -4,16 +4,18 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Utilisateur</h4>
-            <p class="card-category">Ajouter un utilisateur à votre platforme</p>
+            <h4 class="card-title">{{ isEditing ? 'Modifier Utilisateur' : 'Utilisateur' }}</h4>
+            <p class="card-category">{{ isEditing ? 'Modifier les détails de l\'utilisateur' : 'Ajouter un utilisateur à votre plateforme' }}</p>
           </div>
           <div class="card-body">
-            <form (ngSubmit)="reg()" [formGroup]="updateProfileForm">
+            <form (ngSubmit)="submitForm()" [formGroup]="updateProfileForm">
 
               <div class="row">
                 <div class="col-md-12">
+                  <label class="title-label" for="image">Photo</label>
+                  <input type="file" class="form-control" id="image" (change)="onFileSelected($event)" accept="image/*">
 
-                    <input type="file" class="form-control" id="photo" (change)="onFileSelected($event)" accept="image/*">
+
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
@@ -71,7 +73,7 @@
                 <div class="form-group">
                   <label class="title-label" for="Role">Role</label>
                   <select class="form-control" id="Role" formControlName="roles" required>
-                    <option value="">Choisissez le role de cette personne</option>
+                    <option value="">Choisissez le rôle de cette personne</option>
                     <option value="ETUDIANT">ETUDIANT</option>
                     <option value="PARENT">PARENT</option>
                     <option value="ENSEIGNANT">ENSEIGNANT</option>
@@ -79,9 +81,9 @@
                 </div>
               </div>
 
-
-              <button type="submit" class="btn btn-danger pull-right"
-                      [disabled]="updateProfileForm.invalid" >Ajouter un utilisateur</button>
+              <button type="submit" class="btn btn-danger pull-right" [disabled]="updateProfileForm.invalid">
+                {{ isEditing ? 'Modifier Utilisateur' : 'Ajouter un utilisateur' }}
+              </button>
               <div class="clearfix"></div>
             </form>
           </div>

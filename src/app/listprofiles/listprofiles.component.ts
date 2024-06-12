@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import {UserService} from "../user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-profile',
@@ -10,7 +11,8 @@ import {UserService} from "../user.service";
 export class ListprofilesComponent implements OnInit {
     profiles:any;
 
-  constructor(private userService: UserService) { } // Inject UserService
+  constructor(private userService: UserService   , private router: Router
+) { } // Inject UserService
 
   ngOnInit() {
       this.displayprofiles();
@@ -66,6 +68,11 @@ export class ListprofilesComponent implements OnInit {
                 console.error('Error deleting person', error);
             }
         );
+    }
+
+    editProfile(profile: any): void {
+        // Navigate to UserProfileComponent and pass the profile data
+        this.router.navigate(['/user-profile', profile.id_personne]); // Adjust the route and parameter as per your routing configuration
     }
     // Method to get image src
 
