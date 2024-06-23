@@ -6,6 +6,7 @@ import {AuthService} from "../auth.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ClasseService} from "../service/classe.service";
+import {ToastrService} from "ngx-toastr";
 declare var $: any;
 
 @Component({
@@ -14,10 +15,20 @@ declare var $: any;
   styleUrls: ['./matiere.component.css']
 })
 export class MatiereComponent implements OnInit {
+    checkedMatieres: any[] = [];
+
     MatiereForm: FormGroup;
+    ClassForm:FormGroup;
     matieres:any
+    users:any
+    classes:any
+
+    className:any
     initMatiereForm() {
         this.MatiereForm = this.formBuilder.group({
+            nom: ['', Validators.required],
+        });
+        this.ClassForm = this.formBuilder.group({
             nom: ['', Validators.required],
         });
     }
@@ -27,7 +38,8 @@ export class MatiereComponent implements OnInit {
         private authService: AuthService,
         private formBuilder: FormBuilder,
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private toastr: ToastrService
     ) {
 
 
@@ -35,7 +47,33 @@ export class MatiereComponent implements OnInit {
     ngOnInit(): void {
         this.initMatiereForm();
         this.getAllMatieres();
+        this.getAllPersonnes();
+        this.getAllClasses();
 
+
+    }
+    getAllClasses(){
+        this.classeService.getClasses().subscribe(
+            (response) => {
+                console.log(response); // Log the response to console
+                this.classes=response
+            },
+            (error) => {
+                console.error('Error:', error); // Log any errors to console
+            }
+        );
+    }
+    getAllPersonnes(){
+        this.classeService.getUsers().subscribe(
+            (response) => {
+                console.log(response); // Log the response to console
+                this.users=response
+                this.users = this.users.filter(user => !user.roles.includes('ADMINISTRATEUR'));
+            },
+            (error) => {
+                console.error('Error:', error); // Log any errors to console
+            }
+        );
     }
     getAllMatieres(){
         this.classeService.getMatieres().subscribe(
@@ -60,51 +98,69 @@ export class MatiereComponent implements OnInit {
             this.classeService.addMatiere(this.MatiereForm.value)
                 .subscribe(
                     (response) => {
-                        console.log('Registration successful:', response);
                         this.getAllMatieres();
-                        this.showNotification('bottom', 'right', 'success', "Subject added successfully");
                         this.MatiereForm.reset();
+                        this.toastr.success("Matiére ajouté avec succés")
                     },
                     (error) => {
                         console.error('Registration failed:', error);
-                        this.showNotification('bottom', 'right', 'danger', "Problem occurred");
+                        this.toastr.error("Probléme d'ajout")
+
                     }
                 );
         } else {
             console.log('Form is invalid');
-            this.showNotification('bottom', 'right', 'danger', "Problem occurred");
         }
     }
-    showNotification(from, align,typetaken,message){
-        const type = typetaken;
+    updateCheckedStatus(matiere: any, isChecked: boolean) {
+        matiere.checked = isChecked;
 
-        const color = Math.floor((Math.random() * 4) + 1);
+        // Update checkedMatieres array based on isChecked
+        if (isChecked) {
+            this.checkedMatieres.push(matiere);
+        } else {
+            const index = this.checkedMatieres.findIndex(item => item.id === matiere.id);
+            if (index !== -1) {
+                this.checkedMatieres.splice(index, 1);
+            }
+        }
+    }
+    anyCheckboxChecked() {
+        return this.matieres.some(matiere => matiere.checked);
+    }
+    affecterMatiere() {
+        const obj = {
+            "nom": this.className,
+            "matieres": this.checkedMatieres.map(matiere => ({ "id": matiere.id, "nom": matiere.nom }))
+        };
 
-        $.notify({
-            icon: "notifications",
-            message: message
-
-        },{
-            type: type[color],
-            timer: 4000,
-            placement: {
-                from: from,
-                align: align
+        this.classeService.addClasse(obj).subscribe(
+            (response) => {
+                this.toastr.success("les matiéres sont affectées a la classe "+this.className)
+                this.getAllClasses();
+// Optionally, refresh the list or handle the UI update here
             },
-            template: '<div data-notify="container" class="col-xl-4 col-lg-4 col-11 col-sm-4 col-md-4 alert alert-{0} alert-with-icon" role="alert">' +
-                '<button mat-button  type="button" aria-hidden="true" class="close mat-button" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
-                '<i class="material-icons" data-notify="icon">notifications</i> ' +
-                '<span data-notify="title">{1}</span> ' +
-                '<span data-notify="message">{2}</span>' +
-                '<div class="progress" data-notify="progressbar">' +
-                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-                '</div>' +
-                '<a href="{3}" target="{4}" data-notify="url"></a>' +
-                '</div>'
-        });
+            error => {
+                this.toastr.error("Error adding classe");
+            }
+        );
     }
 
-
+    retriveClassName(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
+        this.className = inputValue; // Assuming `className` is a property in your component
+    }
+    deleteClasse(id:number): void {
+        this.classeService.deleteClasse(id).subscribe(
+            () => {
+                this.getAllClasses();
+                // Optionally, refresh the list or handle the UI update here
+            },
+            error => {
+                console.error('Error deleting person', error);
+            }
+        );
+    }
     deleteMatiere(id: number): void {
         this.classeService.deleteMatiere(id).subscribe(
             () => {

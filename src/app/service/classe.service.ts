@@ -24,4 +24,14 @@ export class ClasseService {
     deleteMatiere(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/matiere/delete/${id}`);
     }
+    deleteClasse(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/classe/delete/${id}`);
+    }
+
+    addClasse( matiere: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/classe/add`, matiere);
+    }
+    getClasses(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/classe/all`);
+    }
 }

@@ -1,4 +1,3 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -20,6 +19,7 @@ import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { TokenInterceptor } from './token.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -38,8 +38,10 @@ const routes: Routes = [
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
-    AppRoutingModule, 
-    ToastrModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ timeOut: 2000 , enableHtml: true }),
+
   ],
   declarations: [
     AppComponent,
