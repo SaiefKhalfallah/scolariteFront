@@ -18,9 +18,9 @@
       </div>
 
       <div class="row">
-          <div class="col-lg-6 col-md-12">
+          <div class="col-lg-4 col-md-12">
               <div class="card">
-                  <div class="card-header card-header-tabs card-header-primary">
+                  <div class="card-header card-header-tabs card-header-blue">
                       <div class="nav-tabs-navigation">
                           <div class="nav-tabs-wrapper">
                               <span class="nav-tabs-title">Matiéres:</span>
@@ -39,8 +39,8 @@
                                               <label class="form-check-label">
                                                   <input class="form-check-input" type="checkbox" (change)="updateCheckedStatus(matiere, $event.target.checked)" [(ngModel)]="matiere.checked">
                                                   <span class="form-check-sign">
-                        <span class="check"></span>
-                    </span>
+                                                     <span class="check"></span>
+                                                  </span>
                                               </label>
                                           </div>
                                       </td>
@@ -65,36 +65,72 @@
                   </div>
               </div>
           </div>
-          <div class="col-lg-6 col-md-12">
+          <div class="col-lg-8 col-md-12">
               <div class="card">
-                  <div class="card-header card-header-warning">
+                  <div class="card-header card-header-blue">
                       <h4 class="card-title">Prof/Etudiants</h4>
-                      <p class="card-category">Affecter a une classe</p>
+                      <p class="card-category">Affecter à une classe</p>
                   </div>
                   <div class="card-body table-responsive">
+                      <!-- Dropdown filter -->
+                      <div class="form-group">
+                          <label for="roleFilter">Filtrer par rôle:</label>
+                          <select class="form-control" id="roleFilter" [(ngModel)]="selectedRole" (ngModelChange)="applyRoleFilter()">
+                              <option value="">Tous les rôles</option>
+                              <option value="ETUDIANT">Etudiant</option>
+                              <option value="ENSEIGNANT">Enseignant</option>
+                          </select>
+                      </div>
+
+                      <!-- Table -->
                       <table class="table table-hover">
-                          <thead class="text-warning">
+                          <thead class="text-blue">
+                          <tr>
+                              <th>select</th>
                               <th>Name</th>
                               <th>Prenom</th>
                               <th>Role</th>
                               <th>Classe</th>
-
+                          </tr>
                           </thead>
                           <tbody>
-                              <tr *ngFor="let user of users">
-                                  <td>{{ user.nom }}</td>
-                                  <td>{{ user.prenom }}</td>
-                                  <td>{{user.roles}}</td>
-                                  <td>{{user.nomclasse==null?"PAS D'AFFECTATION":user.nomclasse}}</td>
+                          <tr *ngFor="let user of filteredUsers">
+                              <td>
+                                  <div class="form-check">
+                                      <label class="form-check-label">
+                                          <input class="form-check-input" type="checkbox" (change)="updateCheckedStatusUser(user, $event.target.checked)" [(ngModel)]="user.checked">
+                                          <span class="form-check-sign">
+                                                     <span class="check"></span>
+                                                  </span>
+                                      </label>
+                                  </div>
+                              </td>
+                              <td>{{ user.nom }}</td>
+                              <td>{{ user.prenom }}</td>
+                              <td>{{ user.roles }}</td>
+                              <td>{{ user.nomclasse == null ? "PAS D'AFFECTATION" : user.nomclasse }}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2">
 
-                              </tr>
+                                  <div class="form-group" *ngIf="anyCheckboxCheckedUser()">
+                                      <label for="roleFilter">Choisir une classe:</label>
+                                      <select class="form-control" id="classFilter" [(ngModel)]="selectedClass">
+                                          <option value="">les classes</option>
+                                          <!-- Assuming class.nom contains the list of options you want to display -->
+                                          <option *ngFor="let class of classes" [value]="class.nom">{{ class.nom }}</option>
+                                      </select>
+                                  </div>
+                                  <button class="btn btn-danger pull-right" [disabled]="!anyCheckboxCheckedUser()" (click)="affecterClassePersonne()">Affecter ces personnes a une classe</button>
+                              </td>
+                          </tr>
                           </tbody>
                       </table>
                   </div>
               </div>
           </div>
           <div *ngFor="let classe of classes" class="card card-plain">
-              <div style="margin-right: 50%;margin-left: 1%" class="card-header card-header-success">
+              <div style="margin-right: 50%;margin-left: 1%" class="card-header card-header-blue">
                   <h4 class="card-title">{{ classe.nom }}    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deleteClasse(classe.id_classe)">
                       <i class="material-icons">close</i>
                   </button></h4>

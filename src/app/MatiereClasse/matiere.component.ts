@@ -16,6 +16,7 @@ declare var $: any;
 })
 export class MatiereComponent implements OnInit {
     checkedMatieres: any[] = [];
+    checkedUsers: any[] = [];
 
     MatiereForm: FormGroup;
     ClassForm:FormGroup;
@@ -24,6 +25,10 @@ export class MatiereComponent implements OnInit {
     classes:any
 
     className:any
+    filteredUsers: any[] = [];
+    selectedRole: string = '';
+    selectedClass: string = '';
+
     initMatiereForm() {
         this.MatiereForm = this.formBuilder.group({
             nom: ['', Validators.required],
@@ -39,16 +44,19 @@ export class MatiereComponent implements OnInit {
         private formBuilder: FormBuilder,
         private http: HttpClient,
         private router: Router,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private userservice:UserService
     ) {
 
 
     }
     ngOnInit(): void {
+
         this.initMatiereForm();
         this.getAllMatieres();
         this.getAllPersonnes();
         this.getAllClasses();
+
 
 
     }
@@ -69,6 +77,8 @@ export class MatiereComponent implements OnInit {
                 console.log(response); // Log the response to console
                 this.users=response
                 this.users = this.users.filter(user => !user.roles.includes('ADMINISTRATEUR'));
+                this.filteredUsers = this.users;
+
             },
             (error) => {
                 console.error('Error:', error); // Log any errors to console
@@ -125,8 +135,40 @@ export class MatiereComponent implements OnInit {
             }
         }
     }
+    updateCheckedStatusUser(user: any, isChecked: boolean) {
+        user.checked = isChecked;
+
+        // Update checkedMatieres array based on isChecked
+        if (isChecked) {
+            this.checkedUsers.push(user);
+        } else {
+            const index = this.checkedUsers.findIndex(item => item.id === user.id);
+            if (index !== -1) {
+                this.checkedUsers.splice(index, 1);
+            }
+        }
+        console.log("checked users",this.checkedUsers)
+    }
     anyCheckboxChecked() {
         return this.matieres.some(matiere => matiere.checked);
+    }
+    anyCheckboxCheckedUser(){
+        return this.filteredUsers.some(user => user.checked);
+
+    }
+    affecterClassePersonne():void{
+        this.checkedUsers.forEach(user => {
+            this.userservice.affectPersonClass(user.id_personne, this.selectedClass).subscribe(
+                () => {
+                    this.toastr.success(`La personne avec l'id ${user.id_personne} est affectée à la classe ${this.selectedClass}`);
+                    this.getAllPersonnes(); // Refresh the list after each successful update
+                },
+                error => {
+                    this.toastr.error("Problème serveur lors de l'affectation de la classe pour une personne.");
+                    console.error(`Erreur pour la personne avec l'id ${user.id_personne}: `, error);
+                }
+            );
+        });
     }
     affecterMatiere() {
         const obj = {
@@ -165,12 +207,26 @@ export class MatiereComponent implements OnInit {
         this.classeService.deleteMatiere(id).subscribe(
             () => {
                 console.log(`Person with id ${id} deleted successfully`);
+                this.toastr.success("Matiére est supprimé avec succés");
                 this.getAllMatieres();
+
                 // Optionally, refresh the list or handle the UI update here
             },
             error => {
+                this.toastr.error("Vous pouvez pas supprimer cette matiére car elle est utilisée dans une classe");
+
                 console.error('Error deleting person', error);
             }
         );
     }
+    applyRoleFilter() {
+        if (this.selectedRole === '') {
+            // If no role is selected, show all users
+            this.filteredUsers = this.users;
+        } else {
+            // Filter users based on selected role
+            this.filteredUsers = this.users.filter(user => user.roles === this.selectedRole);
+        }
+    }
+
 }

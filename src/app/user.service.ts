@@ -39,4 +39,8 @@ export class UserService {
 
       }
     }
+    affectPersonClass(id: number,classe:any): Observable<void> {
+            return this.http.patch<void>(`${this.apiUrl}/personne/patch/class/${id}`, {'nomclasse':classe});
+
+    }
 }
