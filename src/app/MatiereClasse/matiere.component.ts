@@ -110,11 +110,12 @@ export class MatiereComponent implements OnInit {
                     (response) => {
                         this.getAllMatieres();
                         this.MatiereForm.reset();
-                        this.toastr.success("Matiére ajouté avec succés")
+                        this.checkedMatieres.length = 0;
+                        this.toastr.success("Matière ajoutée avec succès")
                     },
                     (error) => {
                         console.error('Registration failed:', error);
-                        this.toastr.error("Probléme d'ajout")
+                        this.toastr.error("Problème d'ajout")
 
                     }
                 );
@@ -178,7 +179,7 @@ export class MatiereComponent implements OnInit {
 
         this.classeService.addClasse(obj).subscribe(
             (response) => {
-                this.toastr.success("les matiéres sont affectées a la classe "+this.className)
+                this.toastr.success("les matières sont affectées à la classe "+this.className)
                 this.getAllClasses();
 // Optionally, refresh the list or handle the UI update here
             },
@@ -207,13 +208,13 @@ export class MatiereComponent implements OnInit {
         this.classeService.deleteMatiere(id).subscribe(
             () => {
                 console.log(`Person with id ${id} deleted successfully`);
-                this.toastr.success("Matiére est supprimé avec succés");
+                this.toastr.success("La matière est supprimée avec succès");
                 this.getAllMatieres();
 
                 // Optionally, refresh the list or handle the UI update here
             },
             error => {
-                this.toastr.error("Vous pouvez pas supprimer cette matiére car elle est utilisée dans une classe");
+                this.toastr.error("Vous ne pouvez pas supprimer cette matière car elle est utilisée dans une classe");
 
                 console.error('Error deleting person', error);
             }

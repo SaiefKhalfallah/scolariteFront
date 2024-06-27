@@ -30,14 +30,14 @@
         background-color: #191919;
     }
     .logo-img{
-        width: 35px;
+        width: 50px;
         display: block;
-        max-height: 30px;
-        margin-left: 13px;
+        max-height: 50px;
+        margin-left: -18px;
         margin-right: 15px;
 
         img{
-            width: 35px;
+            width: 150px;
             top: 16px;
             position: absolute;
         }
@@ -248,7 +248,7 @@
         &:after{
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -20px;
             right: 15px;
             height: 1px;
             width: calc(100% - 30px);
@@ -266,7 +266,7 @@
 
         .simple-text{
             text-transform: uppercase;
-            padding: $padding-small-vertical $padding-zero;
+            padding: 22px 47px;
             display: inline-block;
             font-size: 18px;
             color: $black-color;
@@ -500,4 +500,11 @@
         }
       }
     }
+}
+.sidebar .logo {
+    padding: 60px 0px;
+    margin: 0;
+    display: block;
+    position: relative;
+    z-index: 4;
 }

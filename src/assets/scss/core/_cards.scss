@@ -624,7 +624,7 @@
   .nav-item .nav-link.active,
   .nav-item .nav-link:hover,
   .nav-item .nav-link:focus {
-    background-color: inherit !important;
+    background-color: #f58f20;
     box-shadow: none !important;
   }
 
@@ -653,6 +653,6 @@
   margin-bottom: 15px;
 
   .card .card-header a[aria-expanded="true"]{
-    color: #e91e63;
+    color: #f58f20;
   }
 }

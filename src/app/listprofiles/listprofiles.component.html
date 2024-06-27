@@ -7,12 +7,12 @@
                     <div class="card-header card-header-success card-header-icon">
                         <img style="height: 100%; width: 100%; object-fit: contain;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
                     </div>
-                    <div style="color:#F44336" class="card-footer">
+                    <div style="color:#f58f20" class="card-footer">
                         <div class="stats">
                             <h5 class="card-title">{{ profile.nom }} {{ profile.prenom }}</h5>
                             <i class="material-icons">badge</i> {{ profile.roles }}
                             <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon" (click)="editProfile(profile)">
-                                <i class="material-icons">edit</i>
+                                <i style="color: #f58f20;" class="material-icons">edit</i>
                             </button>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                        <button type="submit" class="btn pull-right"
+                        <button style="background-color: #3a3a30;" type="submit" class="btn pull-right"
                                 [ngClass]="{'btn-danger': profile.actif, 'btn-success': !profile.actif}"
                                 (click)="deactivatePerson(profile.id_personne, profile.actif ? 0 : 1)">
                             {{ profile.actif ? 'Désactiver le compte' : 'Activer le compte' }}

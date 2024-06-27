@@ -6,11 +6,11 @@
               <div class="form-group">
                   <form (ngSubmit)="addmatiere()" [formGroup]="MatiereForm">
 
-                  <input type="text" class="form-control" id="nom" placeholder="Ajoutez Matiére"
+                  <input type="text" class="form-control" id="nom" placeholder="Ajoutez Matière"
                  formControlName="nom" required>
 
-                  <button type="submit" class="btn btn-danger pull-right"
-                          [disabled]="MatiereForm.invalid" >Ajouter une matiére</button>
+                  <button type="submit" style="background-color: #3a3a30;" class="btn btn-danger pull-right"
+                          [disabled]="MatiereForm.invalid" >Ajouter une matière</button>
                   </form>
 
               </div>
@@ -20,10 +20,10 @@
       <div class="row">
           <div class="col-lg-4 col-md-12">
               <div class="card">
-                  <div class="card-header card-header-tabs card-header-blue">
+                  <div class="card-header card-header-tabs card-header-danger">
                       <div class="nav-tabs-navigation">
                           <div class="nav-tabs-wrapper">
-                              <span class="nav-tabs-title">Matiéres:</span>
+                              <span class="nav-tabs-title">Matières:</span>
 
                           </div>
                       </div>
@@ -55,7 +55,7 @@
                                           <div *ngIf="anyCheckboxChecked()">
                                               <input type="text" class="form-control" placeholder="Ajouter le nom de la classe" (change)="retriveClassName($event)">
                                           </div>
-                                          <button class="btn btn-danger pull-right" [disabled]="!anyCheckboxChecked()" (click)="affecterMatiere()">Affecter ces matiére a une classe</button>
+                                          <button style="background-color: #3a3a30;" class="btn btn-danger pull-right" [disabled]="!anyCheckboxChecked()" (click)="affecterMatiere()">Affecter ces matières à une classe</button>
                                       </td>
                                   </tr>
                                   </tbody>
@@ -67,7 +67,7 @@
           </div>
           <div class="col-lg-8 col-md-12">
               <div class="card">
-                  <div class="card-header card-header-blue">
+                  <div class="card-header card-header-danger">
                       <h4 class="card-title">Prof/Etudiants</h4>
                       <p class="card-category">Affecter à une classe</p>
                   </div>
@@ -121,7 +121,7 @@
                                           <option *ngFor="let class of classes" [value]="class.nom">{{ class.nom }}</option>
                                       </select>
                                   </div>
-                                  <button class="btn btn-danger pull-right" [disabled]="!anyCheckboxCheckedUser()" (click)="affecterClassePersonne()">Affecter ces personnes a une classe</button>
+                                  <button style="background-color: #3a3a30;" class="btn btn-danger pull-right" [disabled]="!anyCheckboxCheckedUser()" (click)="affecterClassePersonne()">Affecter ces personnes a une classe</button>
                               </td>
                           </tr>
                           </tbody>
