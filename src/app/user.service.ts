@@ -19,12 +19,8 @@ export class UserService {
  }
   
   updateUserProfile(userId: number, personne: any): Observable<Personne> {
-    return this.http.put<Personne>(`${this.apiUrl}/personne/update/${userId}`, personne).pipe(
-      tap((updatedUser: Personne) => {
-        // Update the user details in local storage after successful update
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-      })
-    );
+    return this.http.put<Personne>(`${this.apiUrl}/personne/update/${userId}`, personne);
+    
   }
     deletePerson(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/personne/delete/${id}`);

@@ -4,8 +4,8 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title ">Simple Table</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
+                      <h4 class="card-title ">Sanctions</h4>
+                      <p class="card-category"> Gérer les sanctions établies par les enseignants</p>
                   </div>
                   <div class="card-body">
                       <div class="table-responsive">
@@ -15,120 +15,70 @@
                                       ID
                                   </th>
                                   <th>
-                                      Name
+                                      Date sanction
+                                 </th>
+                                  <th>
+                                      Elève
                                   </th>
                                   <th>
-                                      Country
+                                    Classe
                                   </th>
                                   <th>
-                                      City
+                                      Type sanction
                                   </th>
                                   <th>
-                                      Salary
+                                      Raison sanction
                                   </th>
+                                  <th>
+                                      Enseignant
+                                  </th>
+                                  <th *ngIf="currentUser.roles != 'ETUDIANT'">
+                                    Action
+                                </th>
                               </thead>
                               <tbody>
-                                  <tr>
+                                  <tr *ngFor="let sanction of sanctions">
                                       <td>
-                                          1
+                                          {{sanction.id}}
                                       </td>
+                                      <td>{{ sanction.sanction.date }}</td>
+
                                       <td>
-                                          Dakota Rice
-                                      </td>
-                                      <td>
-                                          Niger
-                                      </td>
-                                      <td>
-                                          Oud-Turnhout
-                                      </td>
-                                      <td class="text-primary">
-                                          $36,738
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          2
+                                        {{sanction.eleve.nom + " "+ sanction.eleve.prenom}} 
                                       </td>
                                       <td>
-                                          Minerva Hooper
+                                        {{sanction.eleve.nomclasse}}
                                       </td>
                                       <td>
-                                          Curaçao
-                                      </td>
+                                        {{sanction.sanction.type}}
+                                    </td>
+                                      <td style="color: red;">
+                                        {{sanction.sanction.description}}
+
+                                    </td>
                                       <td>
-                                          Sinaai-Waas
+                                        {{sanction.enseignant.nom + " "+ sanction.enseignant.prenom}} 
+
                                       </td>
-                                      <td class="text-primary">
-                                          $23,789
+                                      
+
+                                      <td *ngIf="sanction.sanction.confirmation == 0 && currentUser.roles == 'ADMINISTRATEUR'">
+                                        <button mat-raised-button class="btn btn-success" (click)=" confirmAv(sanction.id,1)">Accepter</button>
+                                        <button mat-raised-button class="btn btn-danger" (click)=" cancelAv(sanction.id,2)">Rejeter</button>
+
                                       </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          3
+                                      <td style="color:#00bcd4" *ngIf="sanction.sanction.confirmation == 0 && currentUser.roles == 'ENSEIGNANT'">
+                                        EN ATTENTE DE CONFIRMATION 
                                       </td>
-                                      <td>
-                                          Sage Rodriguez
+                                      <td class="text-success" *ngIf="sanction.sanction.confirmation == 1 && currentUser.roles != 'ETUDIANT'">
+                                       Avertissement accepté
+
                                       </td>
-                                      <td>
-                                          Netherlands
+                                      <td class="text-danger" *ngIf="sanction.sanction.confirmation == 2 && currentUser.roles != 'ETUDIANT'">
+                                        Avertissement rejeté
+
                                       </td>
-                                      <td>
-                                          Baileux
-                                      </td>
-                                      <td class="text-primary">
-                                          $56,142
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          4
-                                      </td>
-                                      <td>
-                                          Philip Chaney
-                                      </td>
-                                      <td>
-                                          Korea, South
-                                      </td>
-                                      <td>
-                                          Overland Park
-                                      </td>
-                                      <td class="text-primary">
-                                          $38,735
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          5
-                                      </td>
-                                      <td>
-                                          Doris Greene
-                                      </td>
-                                      <td>
-                                          Malawi
-                                      </td>
-                                      <td>
-                                          Feldkirchen in Kärnten
-                                      </td>
-                                      <td class="text-primary">
-                                          $63,542
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          6
-                                      </td>
-                                      <td>
-                                          Mason Porter
-                                      </td>
-                                      <td>
-                                          Chile
-                                      </td>
-                                      <td>
-                                          Gloucester
-                                      </td>
-                                      <td class="text-primary">
-                                          $78,615
-                                      </td>
+                                  
                                   </tr>
                               </tbody>
                           </table>

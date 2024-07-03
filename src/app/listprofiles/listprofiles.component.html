@@ -1,8 +1,22 @@
 <div class="main-content">
+
     <div class="container-fluid">
+        <h2>{{ currentUser.roles=="ADMINISTRATEUR"? "Tous les élèves":"Mes élèves" }} </h2>
+        <form class="navbar-form">
+            <div class="input-group no-border">
+                <input type="text" (input)="searchProfiles($event)" [(ngModel)]="searchQuery" name="search" class="form-control" placeholder="Search...">
+                <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                    <i class="material-icons">search</i>
+                    <div class="ripple-container"></div>
+                </button>
+            </div>
+        </form>
+        
         <div class="row">
+            
             <!-- Use *ngFor to loop through profiles -->
-            <div class="col-lg-3 col-md-4 col-sm-4" *ngFor="let profile of profiles">
+            <div class="col-lg-3 col-md-4 col-sm-4" *ngFor="let profile of filteredProfiles">
+                
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <img style="height: 100%; width: 100%; object-fit: contain;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
@@ -21,12 +35,42 @@
                             <p class="card-category">{{ profile.email }}</p>
                         </div>
                     </div>
-
+                    <div *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
                         <button style="background-color: #3a3a30;" type="submit" class="btn pull-right"
                                 [ngClass]="{'btn-danger': profile.actif, 'btn-success': !profile.actif}"
                                 (click)="deactivatePerson(profile.id_personne, profile.actif ? 0 : 1)">
                             {{ profile.actif ? 'Désactiver le compte' : 'Activer le compte' }}
                         </button>
+                    </div>
+                    <div *ngIf="currentUser.roles == 'ENSEIGNANT'">
+                        <button style="background-color: #3a3a30;" type="submit" class="btn pull-left"
+                                [ngClass]="{'btn-danger': profile.actif, 'btn-danger': !profile.actif}"
+                                (click)="toggleAvertissement(profile.id_personne)">
+                            Avertissement
+                        </button>
+                        <button style="background-color: #3a3a30;" type="submit" class="btn pull-left"
+                                [ngClass]="{'btn-danger': profile.actif, 'btn-danger': !profile.actif}"
+                                (click)="AbsencePerson(profile.id_personne)">
+                            Absence
+                        </button>
+                        <div *ngIf="showAvertissement[profile.id_personne]">
+                            <textarea style="width: 97%;" [(ngModel)]="avertissementText[profile.id_personne]" placeholder="Entrer les details d'avertissement..."></textarea>
+                            <br>
+                            <div class="form-group">
+                            <span class="custom-dropdown">
+                            <select  class="form-control" (change)="onChange($event.target.value)">
+                                <option disabled selected>Selectionner type</option>
+                                <option value="warning">Warning</option>
+                                <option value="3days">3 days</option>
+                                <option value="4days">4 days</option>
+                            </select>
+                        </span>
+                            </div>
+                            <button mat-raised-button class="btn btn-danger btn-block"  (click)="AvertPerson(profile.id_personne)">send</button>
+
+                        </div>
+                    </div>
+
 
                 </div>
             </div>

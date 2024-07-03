@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   getUserIdFromStorage(): number | null {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('user.userId');
     return userId ? parseInt(userId, 10) : null;
   }
 
@@ -31,7 +31,7 @@ export class AuthService {
       tap((response: any) => {
         this.loggedIn = true;
         localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('userId', response.userId);
+        localStorage.setItem('user', JSON.stringify(response.user));
         localStorage.setItem('authToken', response.token); // Store auth token if provided by the response
       })
     );
