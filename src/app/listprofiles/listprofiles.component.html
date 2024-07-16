@@ -1,10 +1,10 @@
 <div class="main-content">
 
     <div class="container-fluid">
-        <h2>{{ currentUser.roles=="ADMINISTRATEUR"? "Tous les élèves":"Mes élèves" }} </h2>
+        <h2>{{ currentUser.roles=="ADMINISTRATEUR"? "Liste des utilisateurs":"Mes élèves" }} </h2>
         <form class="navbar-form">
             <div class="input-group no-border">
-                <input type="text" (input)="searchProfiles($event)" [(ngModel)]="searchQuery" name="search" class="form-control" placeholder="Search...">
+                <input type="text" (input)="searchProfiles($event)" [(ngModel)]="searchQuery" name="search" class="form-control" placeholder="Chercher...">
                 <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
                     <i class="material-icons">search</i>
                     <div class="ripple-container"></div>
@@ -19,7 +19,7 @@
                 
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
-                        <img style="height: 100%; width: 100%; object-fit: contain;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
+                        <img style="height: 100px; width: 150px;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
                     </div>
                     <div style="color:#f58f20" class="card-footer">
                         <div class="stats">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
-                        <button style="background-color: #3a3a30;" type="submit" class="btn pull-right"
+                        <button type="submit" class="btn pull-right"
                                 [ngClass]="{'btn-danger': profile.actif, 'btn-success': !profile.actif}"
                                 (click)="deactivatePerson(profile.id_personne, profile.actif ? 0 : 1)">
                             {{ profile.actif ? 'Désactiver le compte' : 'Activer le compte' }}
@@ -50,7 +50,7 @@
                         </button>
                         <button style="background-color: #3a3a30;" type="submit" class="btn pull-left"
                                 [ngClass]="{'btn-danger': profile.actif, 'btn-danger': !profile.actif}"
-                                (click)="AbsencePerson(profile.id_personne)">
+                                (click)="toggleAbsence(profile.id_personne)">
                             Absence
                         </button>
                         <div *ngIf="showAvertissement[profile.id_personne]">
@@ -64,9 +64,37 @@
                                 <option value="3days">3 days</option>
                                 <option value="4days">4 days</option>
                             </select>
-                        </span>
+                            </span>
                             </div>
-                            <button mat-raised-button class="btn btn-danger btn-block"  (click)="AvertPerson(profile.id_personne)">send</button>
+                            <button mat-raised-button class="btn btn-danger btn-block"  (click)="AvertPerson(profile.id_personne)">Avertir</button>
+
+                        </div>
+                        <div *ngIf="showAbsence[profile.id_personne]">
+                            <br>
+                            <div class="form-group">
+                                <span class="custom-dropdown">
+                                    <select class="form-control" (change)="onChangeAbsenceMatiere($event.target.value)">
+                                        <option value="">Selectionner Matiére</option>
+                                        <!-- Assuming class.nom contains the list of options you want to display -->
+                                        <option *ngFor="let matiere of matieres" [value]="matiere.nom">{{ matiere.nom }}</option>
+                                    </select>
+                                </span>
+                            <span class="custom-dropdown">
+                                <input  class="form-control" type="date" [(ngModel)]="absenceDate" name="Date absence" >
+
+                            <select  class="form-control" (change)="onChangeAbsence($event.target.value)">
+                                <option disabled selected>Selectionner horaire</option>
+                                <option value="8h-10h">8h-10h</option>
+                                <option value="10h-12h">10h-12h</option>
+                                <option value="14h-16h">14h-16h</option>
+                                <option value="16h-18h">16h-18h</option>
+                            </select>
+
+                            </span>
+
+                           
+                            </div>
+                            <button mat-raised-button class="btn btn-danger btn-block"  (click)="AbsencePerson(profile.id_personne)">Ajouter absence</button>
 
                         </div>
                     </div>

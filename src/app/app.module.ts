@@ -20,6 +20,7 @@ import { UserService } from './user.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { TokenInterceptor } from './token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    NgxDocViewerModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

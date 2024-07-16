@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DocService } from 'app/service/doc.service';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 @Component({
   selector: 'app-notifications',
@@ -6,8 +8,12 @@ declare var $: any;
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+  docs: any[] = [];  file: File | undefined;
+  docToDisplay:any
+  currentUser:any;
 
-  constructor() { }
+  constructor(       private toastr: ToastrService,  private docservice:DocService
+  ) { }
   showNotification(from, align){
       const type = ['','info','success','warning','danger'];
 
@@ -37,6 +43,78 @@ export class NotificationsComponent implements OnInit {
       });
   }
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+
+    this.getAllDocs();
+
+  }
+  saveFile(id:any) {
+    this.docservice.uploadFile(id,this.file).subscribe(
+     () => {
+       this.toastr.success(`Justificatif envoyé`);
+       this.getAllDocs(); // Refresh the list after each successful update
+   },
+   error => {
+     this.toastr.error(`Error`);
+   } 
+ 
+    );
+      }
+
+      
+
+  getAllDocs(){
+    
+      this.docservice.getdocumentAdministratif().subscribe(
+          (response) => {
+              console.log(response); // Log the response to console
+              this.docs=response.filter(doc => {
+                return doc.id_eleve === this.currentUser.id_personne;
+            });
+          },
+          (error) => {
+              console.error('Error:', error); // Log any errors to console
+          }
+      );
+  
+
+      
+  }
+  Request(type:any){
+
+
+    const obj=
+        {
+            "id_eleve": this.currentUser.id_personne,
+            "type": type,
+          }
+
+          console.log('aa',obj)
+
+          this.docservice.adddocumentAdministratif(obj).subscribe(
+            (response) => {
+                console.log(response); // Log the response to console
+            this.getAllDocs()
+                this.toastr.success("Docment demandé avex succés")
+            },
+            (error) => {
+                console.error('Error:', error); // Log any errors to console
+                this.toastr.error("Probléme rencontré")
+
+            }
+        );
+    }
+
+  downloadPDF(id:any) {
+    this.docToDisplay = this.docs.find(doc => doc.id === id);
+  
+    const linkSource = 'data:application/pdf;base64,' + this.docToDisplay.doc.fileupload;
+    const downloadLink = document.createElement("a");
+    const fileName = "justificatif.pdf";
+    
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
 }

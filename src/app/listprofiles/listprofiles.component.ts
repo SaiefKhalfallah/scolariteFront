@@ -4,6 +4,7 @@ import {UserService} from "../user.service";
 import {Router} from "@angular/router";
 import { SanctionService } from 'app/service/sanction.service';
 import { ToastrService } from 'ngx-toastr';
+import { ClasseService } from 'app/service/classe.service';
 
 @Component({
   selector: 'app-list-profile',
@@ -11,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./listprofiles.component.css']
 })
 export class ListprofilesComponent implements OnInit {
+    matieres:any
     profiles:any;
     filteredProfiles: any[] = [];
     currentUser:any;
@@ -21,17 +23,39 @@ export class ListprofilesComponent implements OnInit {
     searchQuery: string = '';
 
 
-  constructor(private userService: UserService,private sanctionService: SanctionService   , private router: Router,        private toastr: ToastrService
+    //absence
+    showAbsence: { [key: number]: boolean } = {};
+    absenceDate: any
+
+    absenceHour:any
+
+    matierechosen:any
+
+  constructor(private userService: UserService,private sanctionService: SanctionService   , private router: Router,        private toastr: ToastrService,private classeService: ClasseService
 ) { } // Inject UserService
 
   ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('user'));
         
       this.displayprofiles();
+      this.getAllMatieres();
+
 
     // Call getUsers() method
 
   }
+
+  getAllMatieres(){
+    this.classeService.getMatieres().subscribe(
+        (response) => {
+            console.log(response); // Log the response to console
+            this.matieres=response;
+        },
+        (error) => {
+            console.error('Error:', error); // Log any errors to console
+        }
+    );
+}
   searchProfiles(event: Event) {
     event.preventDefault();
     const query = this.searchQuery.toLowerCase();
@@ -43,9 +67,22 @@ export class ListprofilesComponent implements OnInit {
   toggleAvertissement(id_personne: number): void {
     this.showAvertissement[id_personne] = !this.showAvertissement[id_personne];
 }
+
+toggleAbsence(id_personne: number): void {
+    this.showAbsence[id_personne] = !this.showAbsence[id_personne];
+}
 onChange(ev:any){
 this.avertissementType=ev;
 }
+
+onChangeAbsence(heure:any){
+    this.absenceHour=heure;
+
+}
+onChangeAbsenceMatiere(matiere:any){
+    this.matierechosen=matiere;
+}
+
     displayprofiles() {
         
         this.userService.getUsers().subscribe(
@@ -68,6 +105,7 @@ this.avertissementType=ev;
                         });
                     }
                     this.filteredProfiles = this.profiles;
+                    console.log('pffffff',this.filteredProfiles)
 
                 } else {
                     console.error('Response is not an array');
@@ -116,7 +154,33 @@ this.avertissementType=ev;
             );
         }
     AbsencePerson(id_personne:any){
+    
 
+        const obj=
+            {
+                "id_eleve": id_personne,
+                "id_enseignant": this.currentUser.id_personne,
+                "horaire": this.absenceHour,
+                "date": this.absenceDate,
+                "matiere":this.matierechosen,
+                "justificatif":"non"
+              }
+
+              console.log('aa',obj)
+
+              this.sanctionService.addAbsence(obj).subscribe(
+                (response) => {
+                    console.log(response); // Log the response to console
+                
+                    this.toastr.success("Absence enregitrée")
+                    this.toggleAbsence(id_personne);
+                },
+                (error) => {
+                    console.error('Error:', error); // Log any errors to console
+                    this.toastr.error("Probléme rencontré")
+
+                }
+            );
     }
 
     deletePerson(id: number): void {

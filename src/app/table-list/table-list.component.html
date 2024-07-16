@@ -18,7 +18,7 @@
                                       Date sanction
                                  </th>
                                   <th>
-                                      Elève
+                                    Élève
                                   </th>
                                   <th>
                                     Classe
@@ -86,11 +86,20 @@
                   </div>
               </div>
           </div>
+
+
+
+
+         
+
+
+
+
           <div class="col-md-12">
               <div class="card card-plain">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title mt-0"> Table on Plain Background</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
+                      <h4 class="card-title mt-0"> Absences</h4>
+                      <p class="card-category"> Liste d'absences</p>
                   </div>
                   <div class="card-body">
                       <div class="table-responsive">
@@ -100,120 +109,87 @@
                                       ID
                                   </th>
                                   <th>
-                                      Name
+                                      Date
                                   </th>
                                   <th>
-                                      Country
+                                    Éléve
                                   </th>
                                   <th>
-                                      City
+                                      Séance
+                                  </th>
+                                  
+                                  <th>
+                                      Enseignant
                                   </th>
                                   <th>
-                                      Salary
-                                  </th>
+                                    Justificatif
+                                </th>
+                                <th *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
+                                    Consulter
+                                </th>
                               </thead>
                               <tbody>
-                                  <tr>
+                                  <tr *ngFor="let absence of absences">
                                       <td>
-                                          1
+                                          {{absence.id}}
                                       </td>
                                       <td>
-                                          Dakota Rice
+                                        {{absence.absence.date}}
+
                                       </td>
                                       <td>
-                                          Niger
+                                        {{absence.eleve.nom + " "+ absence.eleve.prenom}} 
+
                                       </td>
                                       <td>
-                                          Oud-Turnhout
+                                        {{absence.absence.horaire + " "+ absence.absence.matiere}} 
+
                                       </td>
                                       <td>
-                                          $36,738
+                                        {{absence.enseignant.nom + " "+ absence.enseignant.prenom}} 
+
                                       </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          2
+                                      <td  *ngIf="absence.absence.justificatif == 'non' && currentUser.roles == 'ETUDIANT'">
+                                        <input (change)="onFileSelected($event)" class="form-control" type="file"  name="justificatif" accept="application/pdf" />
+                                        <button mat-raised-button class="btn btn-success" (click)=" saveFile(absence.id)">Envoyer</button>
+
+
                                       </td>
-                                      <td>
-                                          Minerva Hooper
+                                      <td *ngIf="absence.absence.justificatif == 'non' && currentUser.roles == 'ADMINISTRATEUR'">
+                                        <button mat-raised-button class="btn btn-success" (click)=" confirmAb(absence.id)">Accepter</button>
+                                        <button mat-raised-button class="btn btn-danger" (click)=" cancelAb(absence.id)">Refuser</button>
+
                                       </td>
-                                      <td>
-                                          Curaçao
+                                      <td *ngIf="absence.absence.justificatif == 'non2' && currentUser.roles == 'ADMINISTRATEUR'">
+                                        non justifié
+
                                       </td>
-                                      <td>
-                                          Sinaai-Waas
+                                      
+                                      
+                                      <td class="text-success" *ngIf="absence.absence.justificatif == 'oui'">
+                                        justifié
+
                                       </td>
-                                      <td>
-                                          $23,789
+                                      <td class="text-danger" *ngIf="absence.absence.justificatif == 'non2' && currentUser.roles != 'ETUDIANT'">
+                                        non justifié
+
                                       </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          3
+                                    <td class="text-danger" *ngIf="absence.absence.justificatif == 'non' && currentUser.roles == 'ADMINISTRATEUR'">
+                                            <button (click)="toggleVisibility(absence.id)">
+                                                <i class="material-icons">visibility</i>       
+                                            </button>
+                                            <button (click)="downloadPDF(absence.id)">
+                                                <i class="material-icons">download</i>  
+                              
+
+                                            </button>
+                                            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+
+                                           
                                       </td>
-                                      <td>
-                                          Sage Rodriguez
-                                      </td>
-                                      <td>
-                                          Netherlands
-                                      </td>
-                                      <td>
-                                          Baileux
-                                      </td>
-                                      <td>
-                                          $56,142
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          4
-                                      </td>
-                                      <td>
-                                          Philip Chaney
-                                      </td>
-                                      <td>
-                                          Korea, South
-                                      </td>
-                                      <td>
-                                          Overland Park
-                                      </td>
-                                      <td>
-                                          $38,735
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          5
-                                      </td>
-                                      <td>
-                                          Doris Greene
-                                      </td>
-                                      <td>
-                                          Malawi
-                                      </td>
-                                      <td>
-                                          Feldkirchen in Kärnten
-                                      </td>
-                                      <td>
-                                          $63,542
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          6
-                                      </td>
-                                      <td>
-                                          Mason Porter
-                                      </td>
-                                      <td>
-                                          Chile
-                                      </td>
-                                      <td>
-                                          Gloucester
-                                      </td>
-                                      <td>
-                                          $78,615
-                                      </td>
+                                     
+                                     
+                                  
                                   </tr>
                               </tbody>
                           </table>
@@ -223,4 +199,35 @@
           </div>
       </div>
   </div>
+  <div *ngIf="file && seepdf"   class="col-md-4">
+    <div class="card card-plain">
+        <div class="card-header card-header-danger">
+            <h4 class="card-title mt-0"> Apercu justificatif</h4>
+            
+         
+
+        </div>
+        
+        <div class="card-body">
+            
+         
+
+
+            <div class="table-responsive">
+
+
+
+              <canvas #pdfViewer style="border: 1px solid black; width: 100%;"></canvas>
+            </div>
+
+
+        </div>
+    </div>
 </div>
+
+ 
+
+ 
+</div>  
+
+

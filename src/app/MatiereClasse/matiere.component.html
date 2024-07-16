@@ -68,7 +68,7 @@
           <div class="col-lg-8 col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title">Prof/Etudiants</h4>
+                      <h4 class="card-title">Enseignants/Élèves</h4>
                       <p class="card-category">Affecter à une classe</p>
                   </div>
                   <div class="card-body table-responsive">
@@ -77,7 +77,7 @@
                           <label for="roleFilter">Filtrer par rôle:</label>
                           <select class="form-control" id="roleFilter" [(ngModel)]="selectedRole" (ngModelChange)="applyRoleFilter()">
                               <option value="">Tous les rôles</option>
-                              <option value="ETUDIANT">Etudiant</option>
+                              <option value="ETUDIANT">Élève</option>
                               <option value="ENSEIGNANT">Enseignant</option>
                           </select>
                       </div>
@@ -86,10 +86,10 @@
                       <table class="table table-hover">
                           <thead class="text-blue">
                           <tr>
-                              <th>select</th>
-                              <th>Name</th>
-                              <th>Prenom</th>
-                              <th>Role</th>
+                              <th>Sélectionner</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>
+                              <th>Rôle</th>
                               <th>Classe</th>
                           </tr>
                           </thead>
@@ -129,19 +129,37 @@
                   </div>
               </div>
           </div>
-          <div *ngFor="let classe of classes" class="card card-plain">
-              <div style="margin-right: 50%;margin-left: 1%" class="card-header card-header-blue">
-                  <h4 class="card-title">{{ classe.nom }}    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deleteClasse(classe.id_classe)">
-                      <i class="material-icons">close</i>
-                  </button></h4>
+      </div>
+ 
+  </div>
+</div>
+<div class="main-content">
 
-                  <p class="card-category">
+<div class="container-fluid">
+    <div class="row" >
+      
+      <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let classe of classes" >
+          <div class="card card-stats">
+              <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                      <i class="material-icons">meeting_room</i>
+                  </div>
+                  <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deleteClasse(classe.id_classe)">
+                      <i class="material-icons">close</i>
+                  </button>
+                  <h3 class="card-title">{{ classe.nom }}
+                  </h3>
+              </div>
+              <div class="card-footer">
+                  <div class="stats">
+                      <i class="material-icons text-danger">menu_book</i>
                       <ng-container *ngFor="let matierec of classe.matieres; let last = last">
                           {{ matierec.nom }}{{ !last ? ', ' : '' }}
                       </ng-container>
-                  </p>
+                  </div>
               </div>
           </div>
       </div>
   </div>
+</div>
 </div>

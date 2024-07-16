@@ -19,9 +19,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {ListprofilesComponent} from "../../listprofiles/listprofiles.component";
 import {MatiereComponent} from "../../MatiereClasse/matiere.component";
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
   imports: [
+
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
@@ -32,6 +34,8 @@ import {MatiereComponent} from "../../MatiereClasse/matiere.component";
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    NgxDocViewerModule
+
   ],
   declarations: [
     DashboardComponent,
