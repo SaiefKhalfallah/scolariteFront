@@ -121,7 +121,7 @@
                                   <th>
                                       Enseignant
                                   </th>
-                                  <th>
+                                  <th >
                                     Justificatif
                                 </th>
                                 <th *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
@@ -155,7 +155,7 @@
 
 
                                       </td>
-                                      <td *ngIf="absence.absence.justificatif == 'non' && currentUser.roles == 'ADMINISTRATEUR'">
+                                      <td *ngIf="absence.absence.justificatif == 'non' && absence.absence.file &&  currentUser.roles == 'ADMINISTRATEUR'">
                                         <button mat-raised-button class="btn btn-success" (click)=" confirmAb(absence.id)">Accepter</button>
                                         <button mat-raised-button class="btn btn-danger" (click)=" cancelAb(absence.id)">Refuser</button>
 
@@ -164,13 +164,17 @@
                                         non justifié
 
                                       </td>
-                                      
+                                      <td *ngIf="absence.absence.justificatif == 'non' &&  !absence.absence.file && currentUser.roles == 'ADMINISTRATEUR'">
+                                        non justifié
+
+                                      </td>
                                       
                                       <td class="text-success" *ngIf="absence.absence.justificatif == 'oui'">
                                         justifié
 
                                       </td>
-                                      <td class="text-danger" *ngIf="absence.absence.justificatif == 'non2' && currentUser.roles != 'ETUDIANT'">
+                                     
+                                      <td class="text-danger" *ngIf="absence.absence.justificatif == 'non2' && currentUser.roles == 'ETUDIANT'">
                                         non justifié
 
                                       </td>
@@ -202,7 +206,7 @@
   <div *ngIf="file && seepdf"   class="col-md-4">
     <div class="card card-plain">
         <div class="card-header card-header-danger">
-            <h4 class="card-title mt-0"> Apercu justificatif</h4>
+            <h4 class="card-title mt-0"> Aperçu justificatif</h4>
             
          
 
