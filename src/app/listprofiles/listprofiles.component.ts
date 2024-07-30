@@ -95,6 +95,9 @@ onChangeAbsenceMatiere(matiere:any){
                     if (this.currentUser.roles=="ADMINISTRATEUR"){
                         this.profiles = response.slice(1);
                         console.log("admin")
+                        this.profiles=response.filter(profile => {
+                            return profile.roles !== "ADMINISTRATEUR";
+                        });
 
                     }
                     if(this.currentUser.roles=="ENSEIGNANT"){
@@ -143,7 +146,7 @@ onChangeAbsenceMatiere(matiere:any){
                 (response) => {
                     console.log(response); // Log the response to console
                 
-                    this.toastr.success("Eleve averti")
+                    this.toastr.success("Élève averti")
                     this.toggleAvertissement(id_personne);
                 },
                 (error) => {

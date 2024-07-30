@@ -179,7 +179,7 @@ export class MatiereComponent implements OnInit {
 
         this.classeService.addClasse(obj).subscribe(
             (response) => {
-                this.toastr.success("les matières sont affectées à la classe "+this.className)
+                this.toastr.success("Les matières sont affectées à la classe "+this.className)
                 this.getAllClasses();
 // Optionally, refresh the list or handle the UI update here
             },

@@ -116,7 +116,7 @@
                                   <div class="form-group" *ngIf="anyCheckboxCheckedUser()">
                                       <label for="roleFilter">Choisir une classe:</label>
                                       <select class="form-control" id="classFilter" [(ngModel)]="selectedClass">
-                                          <option value="">les classes</option>
+                                          <option value="">Liste des classes</option>
                                           <!-- Assuming class.nom contains the list of options you want to display -->
                                           <option *ngFor="let class of classes" [value]="class.nom">{{ class.nom }}</option>
                                       </select>

@@ -100,16 +100,16 @@ export class UserProfileComponent implements OnInit {
             .subscribe(
                 (response) => {
                   console.log('Registration successful:', response);
-                  this.toastr.success('user added successfully');
+                  this.toastr.success('Utilisateur ajouté avec succès');
                   this.updateProfileForm.reset();
                 },
                 (error) => {
                   console.error('Registration failed:', error);
-                  this.toastr.error('cannot add user');
+                  this.toastr.error('Utilisateur non trouvé');
                 }
             );
       } else {
-        this.toastr.error('Please fill out all required fields');
+        this.toastr.error('Veuillez remplir tous les champs requis');
       }
     }else{
       if (this.updateProfileForm.valid) {
@@ -122,16 +122,16 @@ export class UserProfileComponent implements OnInit {
             .subscribe(
                 (response) => {
                   console.log('Registration successful:', response);
-                  this.toastr.success('user added successfully');
+                  this.toastr.success('Utilisateur ajouté avec succès');
                   this.updateProfileForm.reset();
                 },
                 (error) => {
                   console.error('Registration failed:', error);
-                  this.toastr.error('cannot add user');
+                  this.toastr.error('Utilisateur non trouvé');
                 }
             );
       } else {
-        this.toastr.error('Please fill out all required fields');
+        this.toastr.error('Veuillez remplir tous les champs requis');
       }
     }
 
