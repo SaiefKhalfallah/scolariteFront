@@ -5,7 +5,8 @@
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">{{ isEditing ? 'Modifier Utilisateur' : 'Utilisateur' }}</h4>
-            <p class="card-category">{{ isEditing ? 'Modifier les détails de l\'utilisateur' : 'Ajouter un utilisateur à votre plateforme' }}</p>
+            <p class="card-category">{{ isEditing ? 'Modifier les détails de l\'utilisateur' : 'Ajouter un utilisateur à
+              votre plateforme' }}</p>
           </div>
           <div class="card-body">
             <form (ngSubmit)="submitForm()" [formGroup]="updateProfileForm">
@@ -14,29 +15,44 @@
                 <div class="col-md-12">
                   <label class="title-label" for="image">Photo</label>
                   <input type="file" class="form-control" id="image" (change)="onFileSelected($event)" accept="image/*">
-
-
                 </div>
+
+                <!-- Prénom -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="firstName">Prénom</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Ajoutez votre prénom"
-                           formControlName="firstname" required>
+                    <input type="text" class="form-control" id="firstName" placeholder="Saisir le prénom"
+                      formControlName="firstname" required>
+                    <div *ngIf="firstname?.invalid && firstname?.touched" style="color: red;">
+                      <small *ngIf="firstname?.errors?.['required']">Le prénom est requis.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Nom -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="lastName">Nom</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Ajoutez votre nom"
-                           formControlName="lastname" required>
+                    <input type="text" class="form-control" id="lastName" placeholder="Saisir le nom"
+                      formControlName="lastname" required>
+                    <div *ngIf="lastname?.invalid && lastname?.touched" style="color: red;">
+                      <small *ngIf="lastname?.errors?.['required']">Le nom est requis.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Date de naissance -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="datenaissance">Date de naissance</label>
                     <input type="date" class="form-control" id="datenaissance" formControlName="datenaissance" required>
+                    <div *ngIf="datenaissance?.invalid && datenaissance?.touched" style="color: red;">
+                      <small *ngIf="datenaissance?.errors?.['required']">La date de naissance est requise.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Sexe -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="Sexe">Sexe</label>
@@ -45,43 +61,88 @@
                       <option value="male">Masculin</option>
                       <option value="female">Femme</option>
                     </select>
+                    <div *ngIf="sexe?.invalid && sexe?.touched" style="color: red;">
+                      <small *ngIf="sexe?.errors?.['required']">Le sexe est requis.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Email -->
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="title-label" for="email">Adresse email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Entrez votre adresse email"
-                           formControlName="email" required>
+                    <input type="email" class="form-control" id="email" placeholder="Saisir l'adresse email"
+                      formControlName="email" required>
+                    <div *ngIf="email?.invalid && email?.touched" style="color: red;">
+                      <small *ngIf="email?.errors?.['required']">L'email est requis.</small>
+                      <small *ngIf="email?.errors?.['email']">L'email est invalide.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Téléphone -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="phone">Téléphone</label>
-                    <input type="tel" class="form-control" id="phone" placeholder="Entrez votre numéro de téléphone"
-                           formControlName="phoneNumber" required>
+                    <input type="tel" class="form-control" id="phone" placeholder="Saisir le numéro de téléphone"
+                      formControlName="phoneNumber" required>
+                    <div *ngIf="phoneNumber?.invalid && phoneNumber?.touched" style="color: red;">
+                      <small *ngIf="phoneNumber?.errors?.['required']">Le numéro de téléphone est requis.</small>
+                      <small *ngIf="phoneNumber?.errors?.['pattern']">Le numéro de téléphone doit contenir exactement 8
+                        chiffres.</small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Mot de passe -->
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="title-label" for="password">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe"
-                           formControlName="password" required>
+                    <input type="password" class="form-control" id="password" placeholder="Saisir le mot de passe"
+                      formControlName="password" required>
+                    <div *ngIf="password?.invalid && password?.touched" style="color: red;">
+                      <small *ngIf="password?.errors?.['required']">Le mot de passe est requis.</small>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div style="display: flex;">
+                <!-- Rôle -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="title-label" for="Role">Rôle</label>
+                    <select class="form-control" id="Role" formControlName="roles" required
+                      (change)="onRoleChange($event.target.value)">
+                      <option value="">Choisissez le rôle de cette personne</option>
+                      <option value="PERSONNEL">Personnelle Administrative</option>
+                      <option value="ETUDIANT">ETUDIANT</option>
+                      <!-- <option value="PARENT">PARENT</option> -->
+                      <option value="ENSEIGNANT">ENSEIGNANT</option>
+                    </select>
+                    <div *ngIf="roles?.invalid && roles?.touched" style="color: red;">
+                      <small *ngIf="roles?.errors?.['required']">Le rôle est requis.</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="showParentEmail">
+                  <div class="form-group">
+                    <label for="parentEmail">Email du parent</label>
+                    <input type="email" id="parentEmail" class="form-control" formControlName="parentEmail"
+                      placeholder="Entrez l'email du parent" required />
+                    <div *ngIf="parentEmail?.invalid && parentEmail?.touched" style="color: red;">
+                      <small *ngIf="parentEmail?.errors?.['required']">L'email est requis.</small>
+                      <small *ngIf="parentEmail?.errors?.['email']">Format d'email invalide.</small>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="title-label" for="Role">Rôle</label>
-                  <select class="form-control" id="Role" formControlName="roles" required>
-                    <option value="">Choisissez le rôle de cette personne</option>
-                    <option value="ETUDIANT">ETUDIANT</option>
-                    <option value="PARENT">PARENT</option>
-                    <option value="ENSEIGNANT">ENSEIGNANT</option>
-                  </select>
-                </div>
-              </div>
 
-              <button type="submit" style="background-color: #3a3a30" class="btn btn-danger pull-right" [disabled]="updateProfileForm.invalid">
+
+              <!-- Bouton de soumission -->
+              <button type="submit" style="background-color: #3a3a30" class="btn btn-danger pull-right"
+                [disabled]="updateProfileForm.invalid">
                 {{ isEditing ? 'Modifier Utilisateur' : 'Ajouter un utilisateur' }}
               </button>
               <div class="clearfix"></div>

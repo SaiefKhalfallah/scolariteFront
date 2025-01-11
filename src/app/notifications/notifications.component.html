@@ -2,15 +2,15 @@
   <div class="container-fluid">
       <div class="card">
           <div class="card-header card-header-danger" *ngIf="currentUser.roles == 'ETUDIANT'">
-              <h3 class="card-title">Documents administratives</h3>
+              <h3 class="card-title">Documents administratifs</h3>
               <p class="card-category">cet espace est destiné pour l'éléve pour faciliter la gestion des ces documents. Si vous voulez avoir un certain document. Veuillez cliquer sur
-                  <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">demander ce document.</a>
+                  <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">Demander ce document.</a>
               </p>
           </div>
           <div class="card-header card-header-danger" *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
-            <h3 class="card-title">Documents administratives</h3>
+            <h3 class="card-title">Documents administratifs</h3>
             <p class="card-category">
-               Liste des documents demandé.
+               Liste des documents demandés.
             </p>
         </div>
           <div class="card-body">
@@ -21,31 +21,23 @@
           <div class="col-md-12" *ngIf="currentUser.roles == 'ETUDIANT'">
               <div class="places-buttons">
                   <div class="row">
-                      <div *ngIf="docs.length==0" class="col-md-6 ml-auto mr-auto text-center">
+                      <div  class="col-md-6 ml-auto mr-auto text-center">
                           <h4 class="card-title">
                              <b>Attestation de présence</b> 
-                              <p class="category">Si votre demande est en attente. C'est que votre document est entrain d'étre traiter par l'administration</p>
+                              <p class="category">Si votre demande est en attente. C'est que votre document est en train d'être traité par l'administration</p>
                                 <button style="width: 5cm;" mat-raised-button class="btn btn-danger btn-block" (click)="Request('presence')">demander ce document</button>
                               
                           </h4>
                         
                       </div>
-                      <div *ngIf="docs.length>0" class="col-md-6 ml-auto mr-auto text-center">
-                        <h4 class="card-title">
-                           <b>Attestation de présence</b> 
-                            <p class="category">Si votre demande est en attente. C'est que votre document est entrain d'étre traiter par l'administration</p>
-                              <button style="width: 5cm;" disabled mat-raised-button class="btn btn-danger btn-block" (click)="Request('presence')">En attente</button>
-                            
-                        </h4>
-                      
-                    </div>
+                     
                      
                     
                   
                     <div class="col-md-6 ml-auto mr-auto text-center">
                         <h4 class="card-title">
-                            <b>Attestation de stage </b> 
-                            <p class="category">Si votre demande est en attente. C'est que votre document est entrain d'étre traiter par l'administration</p>
+                            <b>Emploi du temps</b> 
+                            <p class="category">Si votre demande est en attente. C'est que votre document est en train d'être traité par l'administration</p>
                             <button style="width: 5cm;" mat-raised-button class="btn btn-danger btn-block" (click)="Request('stage')">demander ce document</button>
                               
                         </h4>
@@ -61,49 +53,76 @@
 
            
           </div>
-          <div class="col-md-12" *ngIf="currentUser.roles == 'ADMINISTRATEUR'">
+          <div class="card-header card-header-danger" *ngIf="currentUser.roles == 'ETUDIANT'">
+            <h3 class="card-title">Documents administratifs</h3>
+            <p class="card-category">
+               Liste des documents demandés.
+            </p>
+        </div>
+
+          <div class="col-md-12" *ngIf="currentUser.roles === 'ETUDIANT'">
             <div class="card">
-             
-                <div class="card-body table-responsive">
-                    <table class="table table-hover">
-                        <thead class="text-warning">
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Salary</th>
-                            <th>Country</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Dakota Rice</td>
-                                <td>$36,738</td>
-                                <td>Niger</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Minerva Hooper</td>
-                                <td>$23,789</td>
-                                <td>Curaçao</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Sage Rodriguez</td>
-                                <td>$56,142</td>
-                                <td>Netherlands</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Philip Chaney</td>
-                                <td>$38,735</td>
-                                <td>Korea, South</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+              <div class="card-body table-responsive">
+                <table class="table table-hover">
+                  <thead class="text-warning">
+                    <tr>
+                      <th>ID</th>
+                      <th>Type</th>
+                      <th>Titre</th>
+                      <th>Date Réception</th>
+                      <th>Statut</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let document of docs">
+                      <td>{{ document.id_document }}</td>
+                      <td>{{ document.type }}</td>
+                      <td>{{ document.titre || 'Non défini' }}</td>
+                      <td>{{ document.date_reception || 'Non défini' }}</td>
+                      <td>{{ document.statusDoc || 'Non défini' }}</td>
+                      <td>
+                        <!-- Bouton Télécharger si le statut du document est accepté -->
+                        <button *ngIf="document.statusDoc === 'ACCEPTED'" class="btn btn-info btn-sm" (click)="downloadPDF(document.id_document)">Télécharger</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-                
-               
+          </div>
+          
+
+          <div class="col-md-12" *ngIf="currentUser.roles === 'ADMINISTRATEUR'">
+            <div class="card">
+              <div class="card-body table-responsive">
+                <table class="table table-hover">
+                  <thead class="text-warning">
+                    <tr>
+                      <th>ID</th>
+                      <th>ID Élève</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Date Réception</th>
+                      <th>Action</th> <!-- Nouvelle colonne -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let document of docs">
+                      <td>{{ document.id_document }}</td>
+                      <td>{{ document.idEleve }}</td>
+                      <td>{{ document.type }}</td>
+                      <td>{{ document.statusDoc || 'Non défini' }}</td>
+                      <td>{{ document.date_reception || 'Non défini' }}</td>
+                      <td>
+                        <!-- Boutons d'action -->
+                        <button   [disabled]="document.statusDoc === 'ACCEPTED'" class="btn btn-success btn-sm" (click)="acceptRequest(document)">Accepter</button>
+                        <button   [disabled]="document.statusDoc === 'REJECTED'" class="btn btn-danger btn-sm" (click)="rejectRequest(document.id_document)">Rejeter</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-      </div>
-  </div>
-</div>
+          </div>
+          

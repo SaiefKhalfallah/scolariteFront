@@ -22,8 +22,18 @@ export class AuthService {
   }
 
   getUserIdFromStorage(): number | null {
-    const userId = localStorage.getItem('user.userId');
-    return userId ? parseInt(userId, 10) : null;
+    const userJson = localStorage.getItem('user'); 
+    if (userJson) {
+      try {
+        const user = JSON.parse(userJson); 
+        console.log("Utilisateur:", user);
+        return user.id_personne || null; 
+      } catch (error) {
+        console.error("Erreur lors de l'analyse de l'utilisateur à partir du localStorage :", error);
+        return null;
+      }
+    }
+    return null; 
   }
 
   login(email: string, password: string): Observable<any> {
@@ -51,7 +61,10 @@ export class AuthService {
       return new Observable<number>(subscriber => subscriber.error('No auth token found'));
     }
   }
-
+getuser(){
+  const user = localStorage.getItem('user');
+  return user ? user : null;
+}
   logout(): void {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('userId');

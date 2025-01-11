@@ -1,0 +1,34 @@
+<div class="reclamation-container">
+  <form [formGroup]="reclamationForm" (ngSubmit)="addReclamation()">
+    <input formControlName="titre" placeholder="Titre de la réclamation" />
+    <textarea formControlName="description" placeholder="Publier une réclamation..."></textarea>
+    <input formControlName="type" placeholder="Type de réclamation" />
+    <input type="file" (change)="onImageUpload($event)"   />
+    <button type="submit">Publier</button>
+  </form>
+
+  <div class="reclamation-list">
+    <div *ngFor="let reclamation of reclamations" class="reclamation-item">
+      <div class="reclamation-header">
+        <div>
+          <h3>{{ reclamation.personne.firstname }} {{ reclamation.personne.lastname }}</h3>
+          <p>à {{ reclamation.heure }}</p>
+        </div>
+      </div>
+      <p>{{ reclamation.description }}</p>
+      <img *ngIf="reclamation.image" [src]="reclamation.image" alt="Image" class="reclamation-image" />
+      <div class="reclamation-actions">
+        <button (click)="likeReclamation(reclamation)">J'aime ({{ reclamation.likes ? reclamation.likes.length : 0 }})</button>
+      </div>
+      <div class="comments">
+        <div *ngFor="let commentaire of reclamation.commentaires" class="comment-item">
+          <p><strong>{{ commentaire.personne.firstname }} {{ commentaire.personne.lastname }}</strong>: {{ parseCommentContent(commentaire.content) }}</p>
+        </div>
+        <form [formGroup]="commentForm" (ngSubmit)="addComment(reclamation)">
+          <input formControlName="content" placeholder="Ajouter un commentaire..." />
+          <button type="submit">Commenter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

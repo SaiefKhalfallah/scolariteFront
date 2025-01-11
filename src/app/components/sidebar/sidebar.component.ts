@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'app/auth.service';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -6,19 +7,18 @@ declare interface RouteInfo {
     title: string;
     icon: string;
     class: string;
+    roles: string[]; 
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'Gestion des profils',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Sanctions et absences',  icon:'library_books', class: '' },
-    { path: '/typography', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps', title: 'Réclamations',  icon:'location_on', class: '' },
-    { path: '/notifications', title: 'Documents administratifs',  icon:'content_paste', class: '' },
-    { path: '/list-profile', title: 'Liste des utilisateurs',  icon:'people', class: '' },
-    { path: '/add-matiere', title: 'classes/matières',  icon:'library_books', class: '' },
-
-
+  { path: '/dashboard', title: 'Acceuil', icon: 'dashboard', class: '', roles: ['ADMINISTRATEUR', 'PERSONNEL','ENSEIGNANT','ETUDIANT'] },
+  { path: '/user-profile', title: 'Gestion des profils', icon: 'person', class: '', roles: ['ADMINISTRATEUR'] },
+  { path: '/table-list', title: 'Sanctions et absences', icon: 'library_books', class: '', roles: ['ADMINISTRATEUR','PERSONNEL','ENSEIGNANT','ETUDIANT'] },
+ // { path: '/typography', title: 'Notifications', icon: 'notifications', class: '', roles: ['ADMINISTRATEUR', 'user'] },
+  //{ path: '/icons', title: 'Icons', icon: 'bubble_chart', class: '', roles: ['ADMINISTRATEUR'] },
+  { path: '/rec', title: 'Réclamations', icon: 'support_agent', class: '', roles: ['ADMINISTRATEUR','PERSONNEL','ENSEIGNANT','ETUDIANT'] },
+  { path: '/notifications', title: 'Documents administratifs', icon: 'content_paste', class: '', roles: ['ADMINISTRATEUR','PERSONNEL','ETUDIANT'] },
+  { path: '/list-profile', title: 'Liste des utilisateurs', icon: 'people', class: '', roles: ['ADMINISTRATEUR','PERSONNEL','ENSEIGNANT'] },
+  { path: '/add-matiere', title: 'Classes et matières', icon: 'library_books', class: '', roles: ['ADMINISTRATEUR','PERSONNEL'] },
 ];
 
 @Component({
@@ -28,11 +28,16 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-
-  constructor() { }
+  currentUser :any;
+  constructor( private auth :AuthService) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    const role =this.currentUser.roles;
+    this.menuItems = ROUTES.filter(menuItem =>
+      menuItem.roles.includes(role) 
+    );
+   // this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
   isMobileMenu() {
       if ($(window).width() > 991) {

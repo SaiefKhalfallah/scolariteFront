@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "SCHOOL-PFE": {
+    "SCOLARITEFRONT": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -39,7 +39,10 @@
             "allowedCommonJsDependencies": [
               "rxjs/add/operator/filter",
               "jquery",
-              "chartist"
+              "chartist",
+              "canvg",
+              "jspdf",
+              "html2canvas"
             ]
           },
           "configurations": {
@@ -86,14 +89,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "SCHOOL-PFE:build"
+            "buildTarget": "SCOLARITEFRONT:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "SCHOOL-PFE:build:production"
+              "buildTarget": "SCOLARITEFRONT:build:production"
             },
             "development": {
-              "browserTarget": "SCHOOL-PFE:build:development"
+              "buildTarget": "SCOLARITEFRONT:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +104,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SCHOOL-PFE:build"
+            "buildTarget": "SCOLARITEFRONT:build"
           }
         },
         "test": {
@@ -146,15 +149,15 @@
       }
     },
     "SCHOOL-PFE-e2e": {
-      "root": "",
-      "sourceRoot": "",
+      "root": "e2e",
+      "sourceRoot": "e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "SCHOOL-PFE:serve"
+            "devServerTarget": "SCOLARITEFRONT:serve"
           }
         },
         "lint": {
@@ -169,11 +172,12 @@
       }
     }
   },
-  "defaultProject": "SCHOOL-PFE",
+  "defaultProject": "SCOLARITEFRONT",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "scss"
+      "style": "scss",
+      "path": "src/app"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

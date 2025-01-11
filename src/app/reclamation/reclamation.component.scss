@@ -1,0 +1,182 @@
+$primary-color: #f77b42; // Bleu principal
+$secondary-color: #f58f20; // Vert secondaire
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+.reclamation-container {
+  margin-top: 100px !important;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 8px $shadow-color;
+
+    textarea {
+      resize: none;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      min-height: 100px;
+      font-size: 14px;
+      box-shadow: inset 0 2px 4px $shadow-color;
+    }
+
+    input[type='file'] {
+      border: none;
+      padding: 5px 0;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, $primary-color, $secondary-color);
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      text-transform: uppercase;
+
+      &:hover {
+        background: linear-gradient(90deg, $secondary-color, $primary-color);
+        box-shadow: 0 4px 8px $shadow-color;
+      }
+    }
+  }
+
+  .reclamation-list {
+    .reclamation-item {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px $shadow-color;
+
+      .reclamation-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-right: 15px;
+          box-shadow: 0 2px 4px $shadow-color;
+        }
+
+        h3 {
+          margin: 0;
+          font-size: 18px;
+          color: #333;
+        }
+
+        p {
+          margin: 0;
+          font-size: 12px;
+          color: #666;
+        }
+      }
+
+      .reclamation-image {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        margin: 15px 0;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px $shadow-color;
+      }
+
+      .reclamation-actions {
+        display: flex;
+        gap: 15px;
+
+        button {
+          padding: 8px 15px;
+          border: none;
+          border-radius: 10px;
+          background: $primary-color;
+          color: white;
+          font-size: 14px;
+          cursor: pointer;
+          transition: 0.3s ease;
+
+          &:hover {
+            background: $secondary-color;
+            box-shadow: 0 4px 8px $shadow-color;
+          }
+        }
+      }
+
+      .comments {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+
+        .comment-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+
+          .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 2px 4px $shadow-color;
+          }
+
+          p {
+            margin: 0;
+            font-size: 14px;
+
+            strong {
+              color: #333;
+            }
+          }
+        }
+
+        form {
+          display: flex;
+          gap: 10px;
+          margin-top: 15px;
+
+          input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: inset 0 2px 4px $shadow-color;
+          }
+
+          button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, $primary-color, $secondary-color);
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s ease;
+
+            &:hover {
+              background: linear-gradient(90deg, $secondary-color, $primary-color);
+              box-shadow: 0 4px 8px $shadow-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}

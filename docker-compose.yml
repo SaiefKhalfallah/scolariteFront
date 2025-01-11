@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school-pfe-frontend
+    ports:
+      - "4200:80"
+    restart: always

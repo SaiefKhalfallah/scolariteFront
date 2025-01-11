@@ -7,4 +7,5 @@ export interface Personne {
     gender: string;
     phoneNumber: number;
     password?: string; 
+    image?: string;
   }

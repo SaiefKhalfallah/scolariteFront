@@ -21,6 +21,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TokenInterceptor } from './token.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -28,9 +32,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    
     NgxDocViewerModule,
     BrowserModule,
     BrowserAnimationsModule,
+    
     FormsModule,
     ReactiveFormsModule, // Only import once
     HttpClientModule,
@@ -41,10 +47,16 @@ const routes: Routes = [
     MatInputModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatDividerModule,
+    ComponentsModule,
     ToastrModule.forRoot({ timeOut: 2000 , enableHtml: true }),
 
   ],
   declarations: [
+    
     AppComponent,
     AdminLayoutComponent,
     RegisterComponent,

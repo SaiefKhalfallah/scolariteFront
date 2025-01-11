@@ -123,6 +123,7 @@
     .nav{
         margin-top: 20px;
         display: block;
+        padding-bottom: 60px;
 
         .caret{
             margin-top: 13px;
@@ -211,7 +212,7 @@
           padding-right: 10px;
           text-transform: capitalize;
           font-size: $font-paragraph - 1;
-          padding: 10px 15px;
+          padding: 10px 15px ;
     }
 
 
@@ -225,6 +226,7 @@
         left: 0;
         background-size: cover;
         background-position: center center;
+        overflow: auto;
 
         &:after{
             position: absolute;
@@ -357,7 +359,8 @@
         > li > a,
         > li > a:hover{
             color: $white-color;
-            margin: 0 15px;
+           margin: 0px 15px;
+          
         }
 
         > li > a:focus,

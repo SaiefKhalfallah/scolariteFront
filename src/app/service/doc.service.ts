@@ -1,6 +1,6 @@
 // src/app/services/user.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Personne } from 'app/models/personne.model';
 
@@ -32,5 +32,14 @@ export class DocService {
       formData.append('file', file, file.name);
     
       return this.http.patch<void>(`${this.apiUrl}/documentAdministratif/upload/patch/${id}`, formData);
+    }
+
+    changestatus(id :number, status :string):Observable<any>{
+     //const params = new HttpParams().set('status', status);
+      return this.http.patch<any>(`${this.apiUrl}/documentAdministratif/status/patch/${id}`,{status})
+    }
+
+    getDocumentsForUser(userId: number): Observable<any[]> {
+      return this.http.get<any[]>(`${this.apiUrl}/documentAdministratif/user/${userId}`);
     }
 }

@@ -20,6 +20,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {ListprofilesComponent} from "../../listprofiles/listprofiles.component";
 import {MatiereComponent} from "../../MatiereClasse/matiere.component";
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ReclamationComponent } from 'app/reclamation/reclamation.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -34,6 +36,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatCardModule,
     NgxDocViewerModule
 
   ],
@@ -47,7 +50,8 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     NotificationsComponent,
     UpgradeComponent,
     ListprofilesComponent,
-    MatiereComponent
+    MatiereComponent,
+    ReclamationComponent,
   ]
 })
 

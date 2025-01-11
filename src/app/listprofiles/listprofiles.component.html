@@ -4,7 +4,7 @@
         <h2>{{ currentUser.roles=="ADMINISTRATEUR"? "Liste des utilisateurs":"Mes élèves" }} </h2>
         <form class="navbar-form">
             <div class="input-group no-border">
-                <input type="text" (input)="searchProfiles($event)" [(ngModel)]="searchQuery" name="search" class="form-control" placeholder="Chercher...">
+                <input type="text" (input)="searchProfiles($event)" [(ngModel)]="searchQuery" name="search" class="form-control" placeholder="Rehercher...">
                 <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
                     <i class="material-icons">search</i>
                     <div class="ripple-container"></div>
@@ -17,13 +17,13 @@
             <!-- Use *ngFor to loop through profiles -->
             <div class="col-lg-3 col-md-4 col-sm-4" *ngFor="let profile of filteredProfiles">
                 
-                <div class="card card-stats">
+                <div class="card card-stats " style=" height:300px ; padding-bottom: 10px !important;">
                     <div class="card-header card-header-success card-header-icon">
-                        <img style="height: 100px; width: 150px;" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
+                        <img style="height: 100px; width: 150px; border-radius: 10%; margin-top: -20px; background-color: rgb(182, 174, 162);" class="material-icons" *ngIf="profile.image" [src]="getImageUrl(profile.image)" alt="Profile Image">
                     </div>
                     <div style="color:#f58f20" class="card-footer">
                         <div class="stats">
-                            <h5 class="card-title">{{ profile.nom }} {{ profile.prenom }}</h5>
+                            <h5 class="card-title" style="display: contents;">{{ profile.nom }} {{ profile.prenom }}</h5>
                             <i class="material-icons">badge</i> {{ profile.roles }}
                             <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon" (click)="editProfile(profile)">
                                 <i style="color: #f58f20;" class="material-icons">edit</i>

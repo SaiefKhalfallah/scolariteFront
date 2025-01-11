@@ -11,6 +11,9 @@ export class UserService {
   private apiUrl = 'http://localhost:8089'; 
 
   constructor(private http: HttpClient) {}
+  getbyId(userid :number):Observable<Personne>{
+    return this.http.get<Personne>(`${this.apiUrl}/personne/find/${userid}`);
+  }
     getUsers(): Observable<Personne> {
         return this.http.get<Personne>(`${this.apiUrl}/personne/all`);
     }
@@ -38,5 +41,14 @@ export class UserService {
     affectPersonClass(id: number,classe:any): Observable<void> {
             return this.http.patch<void>(`${this.apiUrl}/personne/patch/class/${id}`, {'nomclasse':classe});
 
+    }
+
+
+    getCountEleves(): Observable<number> {
+      return this.http.get<number>(`${this.apiUrl}/personne/count-eleves`);
+    }
+  
+    getCountEnseignants(): Observable<number> {
+      return this.http.get<number>(`${this.apiUrl}/personne/count-enseignants`);
     }
 }

@@ -151,7 +151,7 @@ onChangeAbsenceMatiere(matiere:any){
                 },
                 (error) => {
                     console.error('Error:', error); // Log any errors to console
-                    this.toastr.error("Probléme rencontré")
+                    this.toastr.error("Problème rencontré")
 
                 }
             );
@@ -175,12 +175,12 @@ onChangeAbsenceMatiere(matiere:any){
                 (response) => {
                     console.log(response); // Log the response to console
                 
-                    this.toastr.success("Absence enregitrée")
+                    this.toastr.success("Absence enregistrée")
                     this.toggleAbsence(id_personne);
                 },
                 (error) => {
                     console.error('Error:', error); // Log any errors to console
-                    this.toastr.error("Probléme rencontré")
+                    this.toastr.error("Problème rencontré")
 
                 }
             );

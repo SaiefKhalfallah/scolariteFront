@@ -4,23 +4,23 @@
       <div class="col-md-8 offset-md-2">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Login</h4>
+            <h4 class="card-title">Se connecter</h4>
           </div>
           <div class="card-body">
             <form [formGroup]="loginForm" (submit)="login()">
               <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" placeholder="Enter your email"
+                <label for="email">Adresse email</label>
+                <input type="text" class="form-control" id="email" placeholder="Entrer l'adresse email"
                   formControlName="email">
 
-                <label for="password">Mot de Passe</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                <label for="password">Mot de passe</label>
+                <input type="password" class="form-control" id="password" placeholder="Entrer le mot de passe"
                   formControlName="password">
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">S'authentifier</button>
               </div>
-              <p>Don't have an account ? <a href="http://localhost:4200/register">Sign up</a></p>
+              <p>Bienvenue sur Quarrini.tn <a href="http://localhost:4200/register"></a></p>
             </form>
           </div>
         </div>

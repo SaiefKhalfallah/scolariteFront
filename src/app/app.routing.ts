@@ -9,8 +9,10 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
 
+  
   {path: '', // Add the route for the register component
-    component: LoginComponent},
+    component: LoginComponent
+  },
 
   {
     path: '',

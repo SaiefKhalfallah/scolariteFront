@@ -2,11 +2,11 @@
   <div class="container-fluid">
       <div class="row">
 
-          <div class="col-md-4">
+          <div class=" col-lg-12 col-md-4">
               <div class="form-group">
                   <form (ngSubmit)="addmatiere()" [formGroup]="MatiereForm">
 
-                  <input type="text" class="form-control" id="nom" placeholder="Ajoutez Matière"
+                  <input type="text" class="form-control" id="nom" placeholder="Ajoutez la matière"
                  formControlName="nom" required>
 
                   <button type="submit" style="background-color: #3a3a30;" class="btn btn-danger pull-right"
@@ -18,7 +18,7 @@
       </div>
 
       <div class="row">
-          <div class="col-lg-4 col-md-12">
+          <div class="col-lg-12 col-md-12">
               <div class="card">
                   <div class="card-header card-header-tabs card-header-danger">
                       <div class="nav-tabs-navigation">
@@ -65,10 +65,10 @@
                   </div>
               </div>
           </div>
-          <div class="col-lg-8 col-md-12">
+          <div class="col-lg-12 col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title">Enseignants/Élèves</h4>
+                      <h4 class="card-title">Liste des utilisateurs</h4>
                       <p class="card-category">Affecter à une classe</p>
                   </div>
                   <div class="card-body table-responsive">

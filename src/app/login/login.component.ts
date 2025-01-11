@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
       const loggedIn = await this.authService.login(email, password).toPromise();
 
       if (loggedIn) {
-        this.toastr.success('Login successfully')
+        this.toastr.success('Authentification réussie')
         this.router.navigate(['/dashboard']);
       } else {
-        this.toastr.error('Invalid email or password');
+        this.toastr.error('Email ou mot de passe invalide');
       }
     } catch (error) {
       console.error('Login failed:', error);
