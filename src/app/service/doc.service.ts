@@ -13,7 +13,7 @@ export class DocService {
   constructor(private http: HttpClient) {}
  
   getdocumentAdministratif(): Observable<any> {
-   return this.http.get<any>(`${this.apiUrl}/documentAdministratif/all`);
+   return this.http.get<any>(`${this.apiUrl}/documentAdministratif/dto/all`);
  }
   
   adddocumentAdministratif( matiere: any): Observable<any> {
